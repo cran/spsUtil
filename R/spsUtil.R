@@ -6,6 +6,7 @@
 #' @importFrom stringr str_detect str_pad
 #' @importFrom magrittr %>%
 #' @importFrom utils installed.packages
+#' @importFrom R6 R6Class
 NULL
 
 #' Suppress cat, print, message and warning
@@ -51,19 +52,34 @@ quiet <- function (
 #' check namespace
 #' @description  Help you to check if you have certain packages and
 #' return missing package names
+#'
 #' @param packages vector of strings
 #' @param quietly bool, give you warning on fail?
 #' @param from  string, where this package is from like, "CRAN", "GitHub", only
 #' for output message display purpose
+#' @param time_out numeric, how long to wait before reaching the time limit. Sometimes
+#' there are too many pkgs installed and takes too long to scan the whole list.
+#' Set this timeout in seconds to prevent the long waiting.
+#' @param on_timeout expressions, expressions to run when reaches timeout time.
+#' Default is to return all packages as missing
 #' @return vector of strings, of missing package names, `character(0)` if no missing
 #' @export
 #' @examples
-#' checkNameSpace("ggplot2")
-#' checkNameSpace("random_pkg")
-#' checkNameSpace("random_pkg", quietly = TRUE)
-checkNameSpace <- function(packages, quietly = FALSE, from = "CRAN") {
+#' if(!identical(Sys.getenv("NOT_CRAN"), "false")){
+#'     checkNameSpace("ggplot2")
+#'     checkNameSpace("random_pkg")
+#'     checkNameSpace("random_pkg", quietly = TRUE)
+#' }
+checkNameSpace <- function(
+    packages,
+    quietly = FALSE,
+    from = "CRAN",
+    time_out = 1,
+    on_timeout = {""}
+    ){
+    stopifnot(is.numeric(time_out) && length(time_out) == 1)
     if (!emptyIsFalse(packages)) return(NULL)
-    pkg_ls <- installed.packages()[, 1]
+    pkg_ls <- timeout(installed.packages()[, 1], on_timeout = on_timeout, time_out = time_out)
     missing_pkgs <- packages[!packages %in% pkg_ls]
     if (!quietly & assertthat::not_empty(missing_pkgs)) {
         msg(glue("These packages are missing from ",
@@ -171,9 +187,18 @@ spswarn <- function(msg) msg(msg, "warning", warning_text = "SPS-WARNING", use_c
 spserror <- function(msg) msg(msg, "error", error_text = "SPS-ERROR", use_color = FALSE)
 
 
-#' Empty objects and FALSE will return FALSE
-#' @description judge if an object is empty or FALSE, and return FALSE if it is
-#' @details  not working on S4 class objects.
+#' Judgement of falsy value
+#' @description judge if an object is or not a falsy value. This includes:
+#' empty value, empty string `""`, `NULL`, `NA`, length of 0 and `FALSE` itself
+#' @details
+#' R does not have good built-in methods to judge falsy values and these kind
+#' of values often cause errors in `if` conditions, for example
+#' `if(NULL) 1 else 2` will cause error. So this function will be useful to
+#' handle this kind of situations: `if(notFalsy(NULL)) 1 else 2`.
+#'
+#' 1. not working on S4 class objects.
+#' 2. `isFalsy` is the reverse of `notFalsy`: `isFalsy(x)` = !`notFalsy(x)`
+#' 3. `emptyIsFalse` is the old name for `notFalsy`
 #'
 #' Useful for if statement. Normal empty object in if will spawn error. Wrap the
 #' expression with `emptyIsFalse` can avoid this. See examples
@@ -181,27 +206,40 @@ spserror <- function(msg) msg(msg, "error", error_text = "SPS-ERROR", use_color 
 #'
 #' @export
 #' @return `NA`, `""`, `NULL`, `length(0)`, `nchar == 0` and `FALSE` will return
-#' `FALSE`, otherwise `TRUE`.
+#' `FALSE`, otherwise `TRUE` in `notFalsy` and the opposite in `isFalsy`
 #' @examples
-#' emptyIsFalse(NULL)
-#' emptyIsFalse(NA)
-#' emptyIsFalse("")
-#' try(`if(NULL) "not empty" else "empty"`) # will generate error
-#' if(emptyIsFalse(NULL)) "not empty" else "empty" # this will work
-#' # similar for `NA`, `""`, `character(0)` and more
-emptyIsFalse <- function(x){
-    if(is.function(x)) return(TRUE)
-    if(length(x) > 1)  return(TRUE)
-    if(length(x) == 0) return(FALSE)
-    if(is.na(x)) return(FALSE)
-    if(nchar(x) == 0) return(FALSE)
-    if(isFALSE(x)) return(FALSE)
+#' notFalsy(NULL)
+#' notFalsy(NA)
+#' notFalsy("")
+#' try(`if(NULL) "not empty" else "empty"`) # this will generate error
+#' if(notFalsy(NULL)) "not falsy" else "falsy" # but this will work
+#' # Similar for `NA`, `""`, `character(0)` and more
+#' isFalsy(NULL)
+#' isFalsy(NA)
+#' isFalsy("")
+notFalsy <- function (x) {
+    if (is.function(x)) return(TRUE)
+    if (is.environment(x)) return(TRUE)
+    if (length(x) < 1 || all(is.na(x)) || is.null(x)) return(FALSE)
+    if (nchar(x[1]) == 0) return(FALSE)
+    if (isFALSE(x)) return(FALSE)
     else TRUE
 }
 
+#' @rdname notFalsy
+#' @export
+isFalsy <- function(x) {
+    !notFalsy(x)
+}
+
+#' @rdname notFalsy
+#' @export
+emptyIsFalse <- notFalsy
+
+
 
 #' check if an URL can be reached
-#' @importFrom httr GET timeout stop_for_status
+#' @importFrom httr GET stop_for_status
 #' @param url string, the URL to request
 #' @param timeout seconds to wait before return FALSE
 #' @description check if a URL can be reached, return TRUE if yes and FALSE if
@@ -247,15 +285,20 @@ remove_ANSI <- function(strings) {
 
 
 #' Get or set SPS options
-#'
+#' @description  Some functions in {spsUtil}, {spsComps} and {systempPipeShiny} will behave
+#' differently if some SPS options are changed, but it is optional. All functions
+#' have a default value. If SPS options are not changed, they will just use the
+#' default setting. Read help files of individual functions for detail.
 #' @param opt string, length 1, what option you want to get or set
 #' @param value if this is not `NULL`, this function will set the
 #' option you choose to this value
 #' @param empty_is_false bool, when trying to get an option value, if the
 #' option is `NULL`, `NA`, `""` or length is 0, return `FALSE`?
+#' @param .list list, set many SPS options together at once by passing a
+#' list to this function.
 #' @return return the option value if value exists; return `FALSE` if the value
 #' is empty, like `NULL`, `NA`, `""`; return `NULL` if `empty_is_false = FALSE`;
-#'  see [emptyIsFalse]
+#'  see [notFalsy]
 #'
 #'  If `value != NULL` will set the option to this new value, no returns.
 #' @export
@@ -265,7 +308,21 @@ remove_ANSI <- function(strings) {
 #' spsOption("test1") # get the value again
 #' spsOption("test2")
 #' spsOption("test2", empty_is_false = FALSE)
-spsOption <- function(opt, value = NULL, empty_is_false = TRUE){
+#' spsOption(.list = list(
+#'     test1 = 123,
+#'     test2 = 456
+#' ))
+#' spsOption("test1")
+#' spsOption("test2")
+spsOption <- function(opt, value = NULL, .list = NULL, empty_is_false = TRUE){
+    if (!is.null(.list)) {
+        lapply(seq_along(.list), function(x) {
+            if(is.null(.list[[x]])) spserror(c("In `spsOption`: option ", names(.list)[x], " is NULL, not allowed"))
+        })
+        old_opts <- getOption('sps')
+        old_opts[names(.list)] <- .list
+        return(options(sps = old_opts))
+    }
     assertthat::assert_that(is.character(opt) && length(opt) == 1)
     if(assertthat::not_empty(value))
         options(sps = getOption('sps') %>% {.[[opt]] <- value; .})
@@ -278,3 +335,86 @@ spsOption <- function(opt, value = NULL, empty_is_false = TRUE){
         else get_value
     }
 }
+
+
+
+#' Run expressions with a timeout limit
+#' @description Add a time limit for R expressions
+#' @param expr expressions, wrap them inside `{}`
+#' @param time_out numeric, timeout time, in seconds
+#' @param on_timeout expressions, callback expressions to run it the time out limit
+#' is reached but expression is still running. Default is to return an error.
+#' @param on_final expressions, callback expressions to run in the end regardless
+#' the state and results
+#' @param env environment, which environment to evaluate the expressions. Default is
+#' the same environment as where the `timeout` function is called.
+#'
+#' @return default return, all depends on what return the `expr` will have
+#' @export
+#' @details
+#' Expressions will be evaluated in the parent environment by default, for example
+#' if this function is called at global level, all returns, assignments inside
+#' `expr` will directly go to global environment as well.
+#' @examples
+#' # The `try` command in following examples are here to make sure the
+#' # R CMD check will pass on package check. In a real case, you do not
+#' # need it.
+#'
+#' # default
+#' try(timeout({Sys.sleep(0.1)}, time_out = 0.01))
+#' # timeout is evaluating expressions the same level as you call it
+#' timeout({abc <- 123})
+#' # so you should get `abc` even outside the function call
+#' abc
+#' # custom timeout callback
+#' timeout({Sys.sleep(0.1)}, time_out = 0.01, on_timeout = {print("It takes too long")})
+#' # final call back
+#' try(timeout({Sys.sleep(0.1)}, time_out = 0.01, on_final = {print("some final words")})) # on error
+#' timeout({123}, on_final = {print("runs even success")})  # on success
+#' # assign to value
+#' my_val <- timeout({10 + 1})
+#' my_val
+timeout <- function(
+    expr,
+    time_out = 1,
+    on_timeout = {stop("Timout reached", call. = FALSE)},
+    on_final = {},
+    env = parent.frame()
+    ){
+    stopifnot(is.numeric(time_out) && length(time_out) == 1)
+    expr <- substitute(expr)
+    on_timeout <- substitute(on_timeout)
+    on_final <- substitute(on_final)
+    on.exit(setTimeLimit(), TRUE)
+    setTimeLimit(elapsed = time_out, transient = TRUE)
+    tryCatch({
+        eval(expr, envir=env)
+        },
+        message = function(e) {
+            message(e$message)
+        },
+        warning = function(e) {
+            warning(e$message, call. = FALSE, immediate. = TRUE)
+        },
+        error = function(e) {
+            if(grep("reached elapsed time limit", e$message)) {
+                return(eval(on_timeout, envir=env))
+            }
+            stop(e$message, call. = FALSE)
+        },
+        finally = eval(on_final, envir=env)
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
