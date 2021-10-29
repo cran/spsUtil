@@ -7,6 +7,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom utils installed.packages
 #' @importFrom R6 R6Class
+#' @importFrom stats ave
 NULL
 
 #' Suppress cat, print, message and warning
@@ -79,7 +80,7 @@ checkNameSpace <- function(
     ){
     stopifnot(is.numeric(time_out) && length(time_out) == 1)
     if (!emptyIsFalse(packages)) return(NULL)
-    pkg_ls <- timeout(installed.packages()[, 1], on_timeout = on_timeout, time_out = time_out)
+    pkg_ls <- timeout(.packages(TRUE), on_timeout = on_timeout, time_out = time_out)
     missing_pkgs <- packages[!packages %in% pkg_ls]
     if (!quietly & assertthat::not_empty(missing_pkgs)) {
         msg(glue("These packages are missing from ",
@@ -91,10 +92,12 @@ checkNameSpace <- function(
 
 #' @title pretty logging message
 #' @description If
+#'
 #'   1. `use_color = TRUE` or
 #'   2. under SPS main package `use_crayon`option is `TRUE`
 #'   3. In a console that supports colors
-#'   Then the message will be colorful, other wise no color
+#'
+#' Then the message will be colorful, other wise no color.
 #'
 #' "INFO" level spawns `message`, "WARNING" is `warning`, "ERROR" spawns `stop`,
 #' other levels use `cat`.
