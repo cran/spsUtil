@@ -12,7 +12,7 @@ checkUrl(url, timeout = 5)
 \item{timeout}{seconds to wait before return FALSE}
 }
 \value{
-\code{TRUE} if url is reachable, \code{FALSE} if not
+`TRUE` if url is reachable, `FALSE` if not
 }
 \description{
 check if a URL can be reached, return TRUE if yes and FALSE if

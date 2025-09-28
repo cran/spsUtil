@@ -9,24 +9,24 @@ spsOption(opt, value = NULL, .list = NULL, empty_is_false = TRUE)
 \arguments{
 \item{opt}{string, length 1, what option you want to get or set}
 
-\item{value}{if this is not \code{NULL}, this function will set the
+\item{value}{if this is not `NULL`, this function will set the
 option you choose to this value}
 
 \item{.list}{list, set many SPS options together at once by passing a
 list to this function.}
 
 \item{empty_is_false}{bool, when trying to get an option value, if the
-option is \code{NULL}, \code{NA}, \code{""} or length is 0, return \code{FALSE}?}
+option is `NULL`, `NA`, `""` or length is 0, return `FALSE`?}
 }
 \value{
-return the option value if value exists; return \code{FALSE} if the value
-is empty, like \code{NULL}, \code{NA}, \code{""}; return \code{NULL} if \code{empty_is_false = FALSE};
-see \link{notFalsy}
+return the option value if value exists; return `FALSE` if the value
+is empty, like `NULL`, `NA`, `""`; return `NULL` if `empty_is_false = FALSE`;
+ see [notFalsy]
 
-If \code{value != NULL} will set the option to this new value, no returns.
+ If `value != NULL` will set the option to this new value, no returns.
 }
 \description{
-Some functions in {spsUtil}, {spsComps} and {systempPipeShiny} will behave
+Some functions in \pkg{spsUtil}, \pkg{spsComps} and \pkg{systempPipeShiny} will behave
 differently if some SPS options are changed, but it is optional. All functions
 have a default value. If SPS options are not changed, they will just use the
 default setting. Read help files of individual functions for detail.

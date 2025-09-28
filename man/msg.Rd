@@ -39,7 +39,7 @@ Other custom levels will work too.}
 
 \item{error_text}{error level text prefix, use with "ERROR" level}
 
-\item{use_color}{bool, default \code{TRUE}, to use color if supported?}
+\item{use_color}{bool, default `TRUE`, to use color if supported?}
 
 \item{verbose}{bool, default get from sps project options, can be overwritten}
 }
@@ -48,38 +48,33 @@ see description and details
 }
 \description{
 If
-\enumerate{
-\item \code{use_color = TRUE} or
-\item under SPS main package \code{use_crayon}option is \code{TRUE}
-\item In a console that supports colors
-}
+
+  1. `use_color = TRUE` or
+  2. under SPS main package `use_crayon`option is `TRUE`
+  3. In a console that supports colors
 
 Then the message will be colorful, other wise no color.
 
-"INFO" level spawns \code{message}, "WARNING" is \code{warning}, "ERROR" spawns \code{stop},
-other levels use \code{cat}.
+"INFO" level spawns `message`, "WARNING" is `warning`, "ERROR" spawns `stop`,
+other levels use `cat`.
 
-\code{spsinfo}, \code{spswarn}, \code{spserror} are higher level wrappers of \code{msg}. The
-only difference is they have \verb{SPS-} prefix.
+`spsinfo`, `spswarn`, `spserror` are higher level wrappers of `msg`. The
+only difference is they have `SPS-` prefix.
 
-\code{spsinfo} has an additional
-arg \code{verbose}. This arg works similarly to all other \code{verbose} args in
+`spsinfo` has an additional
+arg `verbose`. This arg works similarly to all other `verbose` args in
 SPS:
-\enumerate{
-\item if not specified, it follows the project option. If SPS option \code{verbose} is
-set to \code{TRUE}, message will be displayed; if \code{FALSE}, mute the message.
-\item It can be be forced to \code{TRUE} and \code{FALSE}. \code{TRUE} will forcibly generate the msg, and \code{FALSE}
+1. if not specified, it follows the project option. If SPS option `verbose` is
+set to `TRUE`, message will be displayed; if `FALSE`, mute the message.
+2. It can be be forced to `TRUE` and `FALSE`. `TRUE` will forcibly generate the msg, and `FALSE`
 will mute the message.
 }
-}
 \details{
-\enumerate{
-\item If \code{use_color} is \code{TRUE}, output message will forcibly use color if the console has color
-support, ignore SPS \code{use_crayon} option.
-\item If \code{use_color} is \code{FALSE}, but you are using within SPS framework, the \code{use_crayon} option
-is set to \code{TRUE}, color will be used.
-\item Otherwise message will be no color.
-}
+1. If `use_color` is `TRUE`, output message will forcibly use color if the console has color
+support, ignore SPS `use_crayon` option.
+2. If `use_color` is `FALSE`, but you are using within SPS framework, the `use_crayon` option
+is set to `TRUE`, color will be used.
+3. Otherwise message will be no color.
 }
 \examples{
 msg("this is info")

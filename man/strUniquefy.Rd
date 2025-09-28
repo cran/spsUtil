@@ -14,7 +14,7 @@ strUniquefy(x, sep_b = "_", sep_a = "", mark_first = TRUE)
 \item{sep_a}{string, separator after the number index}
 
 \item{mark_first}{bool, if duplicated values are found, do you want to add the
-numeric index starting from the first copy? \code{FALSE} means starting from the second
+numeric index starting from the first copy? `FALSE` means starting from the second
 copy.}
 }
 \value{

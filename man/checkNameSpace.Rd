@@ -9,7 +9,9 @@ checkNameSpace(
   quietly = FALSE,
   from = "CRAN",
   time_out = 1,
-  on_timeout = {     FALSE }
+  on_timeout = {
+     FALSE
+ }
 )
 }
 \arguments{
@@ -25,11 +27,11 @@ there are too many pkgs installed and takes too long to scan the whole list.
 Set this timeout in seconds to prevent the long waiting.}
 
 \item{on_timeout}{expressions, call back experssions to run when reaches timeout time.
-Default is return \code{FALSE} as indicating
+Default is return `FALSE` as indicating
 that package is missing (we can't find the package).}
 }
 \value{
-vector of strings, of missing package names, \code{character(0)} if no missing
+vector of strings, of missing package names, `character(0)` if no missing
 }
 \description{
 Help you to check if you have certain packages and

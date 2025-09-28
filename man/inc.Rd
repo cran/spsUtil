@@ -18,17 +18,17 @@ divi(e1, e2 = 2)
 \item{e2}{the operation value, the value to add, subtract, multiply, divide of.}
 }
 \value{
-No return, directly assign the value back to \code{e1}
+No return, directly assign the value back to `e1`
 }
 \description{
-In-place operations like \verb{i += 1}, \verb{i -= 1} is not support in
+In-place operations like `i += 1`, `i -= 1` is not support in
 R. These functions implement these operations in R.
 }
 \details{
-\code{inc(i)} is the same as \code{i <- i + 1}.
-\code{inc(i, -1)} is the same as \code{i <- i - 1}.
-\code{mult(i)} is the same as \code{i <- i * 2}.
-\code{divi(i)} is the same as \code{i <- i / 2}.
+`inc(i)` is the same as `i <- i + 1`.
+`inc(i, -1)` is the same as `i <- i - 1`.
+`mult(i)` is the same as `i <- i * 2`.
+`divi(i)` is the same as `i <- i / 2`.
 }
 \examples{
 i <- 0
@@ -51,7 +51,7 @@ divi(x) # divide 2
 x
 }
 \seealso{
-If you want \link[shiny:reactiveVal]{shiny::reactiveVal}  version of these operators,
-check \href{https://systempipe.org/sps/funcs/spscomps/reference/}{spsComps}. \link[shiny:reactiveValues]{shiny::reactiveValues}
+If you want [shiny::reactiveVal]  version of these operators,
+check [spsComps](https://systempipe.org/sps/funcs/spscomps/reference/). [shiny::reactiveValues]
 operation will be the same as normal values.
 }

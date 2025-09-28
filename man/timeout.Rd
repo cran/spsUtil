@@ -7,13 +7,16 @@
 timeout(
   expr,
   time_out = 1,
-  on_timeout = {     stop("Timout reached", call. = FALSE) },
-  on_final = { },
+  on_timeout = {
+     stop("Timout reached", call. = FALSE)
+ },
+  on_final = {
+ },
   env = parent.frame()
 )
 }
 \arguments{
-\item{expr}{expressions, wrap them inside \code{{}}}
+\item{expr}{expressions, wrap them inside `{}`}
 
 \item{time_out}{numeric, timeout time, in seconds}
 
@@ -24,10 +27,10 @@ is reached but expression is still running. Default is to return an error.}
 the state and results}
 
 \item{env}{environment, which environment to evaluate the expressions. Default is
-the same environment as where the \code{timeout} function is called.}
+the same environment as where the `timeout` function is called.}
 }
 \value{
-default return, all depends on what return the \code{expr} will have
+default return, all depends on what return the `expr` will have
 }
 \description{
 Add a time limit for R expressions
@@ -35,7 +38,7 @@ Add a time limit for R expressions
 \details{
 Expressions will be evaluated in the parent environment by default, for example
 if this function is called at global level, all returns, assignments inside
-\code{expr} will directly go to global environment as well.
+`expr` will directly go to global environment as well.
 }
 \examples{
 # The `try` command in following examples are here to make sure the

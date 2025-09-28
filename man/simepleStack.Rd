@@ -40,18 +40,18 @@ str(my_stack$get()) # nothing left
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{simepleStack$new()}}
-\item \href{#method-len}{\code{simepleStack$len()}}
-\item \href{#method-get}{\code{simepleStack$get()}}
-\item \href{#method-clear}{\code{simepleStack$clear()}}
-\item \href{#method-push}{\code{simepleStack$push()}}
-\item \href{#method-pop}{\code{simepleStack$pop()}}
-\item \href{#method-clone}{\code{simepleStack$clone()}}
+\item \href{#method-simepleStack-new}{\code{simepleStack$new()}}
+\item \href{#method-simepleStack-len}{\code{simepleStack$len()}}
+\item \href{#method-simepleStack-get}{\code{simepleStack$get()}}
+\item \href{#method-simepleStack-clear}{\code{simepleStack$clear()}}
+\item \href{#method-simepleStack-push}{\code{simepleStack$push()}}
+\item \href{#method-simepleStack-pop}{\code{simepleStack$pop()}}
+\item \href{#method-simepleStack-clone}{\code{simepleStack$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-simepleStack-new"></a>}}
+\if{latex}{\out{\hypertarget{method-simepleStack-new}{}}}
 \subsection{Method \code{new()}}{
 initialize a new object
 \subsection{Usage}{
@@ -70,8 +70,8 @@ unlimited.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-len"></a>}}
-\if{latex}{\out{\hypertarget{method-len}{}}}
+\if{html}{\out{<a id="method-simepleStack-len"></a>}}
+\if{latex}{\out{\hypertarget{method-simepleStack-len}{}}}
 \subsection{Method \code{len()}}{
 returns current length of the stack
 \subsection{Usage}{
@@ -80,28 +80,28 @@ returns current length of the stack
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
+\if{html}{\out{<a id="method-simepleStack-get"></a>}}
+\if{latex}{\out{\hypertarget{method-simepleStack-get}{}}}
 \subsection{Method \code{get()}}{
-returns the full current stack of \strong{all items}
+returns the full current stack of **all items**
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{simepleStack$get()}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clear"></a>}}
-\if{latex}{\out{\hypertarget{method-clear}{}}}
+\if{html}{\out{<a id="method-simepleStack-clear"></a>}}
+\if{latex}{\out{\hypertarget{method-simepleStack-clear}{}}}
 \subsection{Method \code{clear()}}{
-remove \strong{all items} in current stack
+remove **all items** in current stack
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{simepleStack$clear()}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-push"></a>}}
-\if{latex}{\out{\hypertarget{method-push}{}}}
+\if{html}{\out{<a id="method-simepleStack-push"></a>}}
+\if{latex}{\out{\hypertarget{method-simepleStack-push}{}}}
 \subsection{Method \code{push()}}{
 add item(s) to the stack
 \subsection{Usage}{
@@ -120,8 +120,8 @@ the current last item. 0 will be before the first item.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-pop"></a>}}
-\if{latex}{\out{\hypertarget{method-pop}{}}}
+\if{html}{\out{<a id="method-simepleStack-pop"></a>}}
+\if{latex}{\out{\hypertarget{method-simepleStack-pop}{}}}
 \subsection{Method \code{pop()}}{
 remove item(s) from the stack and return as results
 \subsection{Usage}{
@@ -134,14 +134,14 @@ remove item(s) from the stack and return as results
 \item{\code{len}}{int, how many items to pop from stack, default is 1 item a time.}
 
 \item{\code{tail}}{bool, to pop in the reverse order (from the last item)? Default
-is \code{FALSE}, pop from the top (first item).}
+is `FALSE`, pop from the top (first item).}
 }
 \if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-simepleStack-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-simepleStack-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

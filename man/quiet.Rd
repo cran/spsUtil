@@ -9,15 +9,15 @@ quiet(x, print_cat = TRUE, message = TRUE, warning = TRUE)
 \arguments{
 \item{x}{function or expression or value assignment expression}
 
-\item{print_cat}{bool, mute \code{print} and \code{cat}?}
+\item{print_cat}{bool, mute `print` and `cat`?}
 
-\item{message}{bool, mute \code{messages}?}
+\item{message}{bool, mute `messages`?}
 
-\item{warning}{bool, mute \code{warnings}?}
+\item{warning}{bool, mute `warnings`?}
 }
 \value{
 If your original functions has a return, it will return in
-\code{invisible(x)}
+`invisible(x)`
 }
 \description{
 Useful if you want to suppress  cat, print, message and warning.

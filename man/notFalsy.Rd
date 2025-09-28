@@ -16,26 +16,25 @@ emptyIsFalse(x)
 \item{x}{any R object}
 }
 \value{
-\code{NA}, \code{""}, \code{NULL}, \code{length(0)}, \code{nchar == 0} and \code{FALSE} will return
-\code{FALSE}, otherwise \code{TRUE} in \code{notFalsy} and the opposite in \code{isFalsy}
+`NA`, `""`, `NULL`, `length(0)`, `nchar == 0` and `FALSE` will return
+`FALSE`, otherwise `TRUE` in `notFalsy` and the opposite in `isFalsy`
 }
 \description{
 judge if an object is or not a falsy value. This includes:
-empty value, empty string \code{""}, \code{NULL}, \code{NA}, length of 0 and \code{FALSE} itself
+empty value, empty string `""`, `NULL`, `NA`, length of 0 and `FALSE` itself
 }
 \details{
 R does not have good built-in methods to judge falsy values and these kind
-of values often cause errors in \code{if} conditions, for example
-\code{if(NULL) 1 else 2} will cause error. So this function will be useful to
-handle this kind of situations: \code{if(notFalsy(NULL)) 1 else 2}.
-\enumerate{
-\item not working on S4 class objects.
-\item \code{isFalsy} is the reverse of \code{notFalsy}: \code{isFalsy(x)} = !\code{notFalsy(x)}
-\item \code{emptyIsFalse} is the old name for \code{notFalsy}
-}
+of values often cause errors in `if` conditions, for example
+`if(NULL) 1 else 2` will cause error. So this function will be useful to
+handle this kind of situations: `if(notFalsy(NULL)) 1 else 2`.
+
+1. not working on S4 class objects.
+2. `isFalsy` is the reverse of `notFalsy`: `isFalsy(x)` = !`notFalsy(x)`
+3. `emptyIsFalse` is the old name for `notFalsy`
 
 Useful for if statement. Normal empty object in if will spawn error. Wrap the
-expression with \code{emptyIsFalse} can avoid this. See examples
+expression with `emptyIsFalse` can avoid this. See examples
 }
 \examples{
 notFalsy(NULL)

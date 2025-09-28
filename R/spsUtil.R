@@ -295,7 +295,7 @@ remove_ANSI <- function(strings) {
 
 
 #' Get or set SPS options
-#' @description  Some functions in {spsUtil}, {spsComps} and {systempPipeShiny} will behave
+#' @description  Some functions in \pkg{spsUtil}, \pkg{spsComps} and \pkg{systempPipeShiny} will behave
 #' differently if some SPS options are changed, but it is optional. All functions
 #' have a default value. If SPS options are not changed, they will just use the
 #' default setting. Read help files of individual functions for detail.

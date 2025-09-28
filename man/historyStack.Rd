@@ -12,23 +12,21 @@ of certain repeating actions. For example, building the back-end of a file/image
 editor, allow undo/redo actions.
 }
 \details{
-\enumerate{
-\item If the stack reaches the limit and you are trying to add more history, the
-first history step will be removed , all history will be shift to the left
-by one step and finally add the new step to the end.
-\item When history returning methods are called, like the \code{get()}, \code{forward()}, \code{backward()}
-methods, it will not directly return the item saved, but a list, contains 4
-components: 1. item, the actual item stored; 2. pos, current posistion value;
-3. first, boolean value, if this history is stored on the first position of stack;
-4. last, boolean value, if this history is stored on the last position of stack;
-\item If you \code{forward} beyond last step, or \code{backward} to prior the first
-step, it will be stopped with errors.
-\item Starting  history stack with no initial history will return a special
-stack, where the \code{pos = 0}, \code{len = 0}, \code{first = TRUE}, and \code{last = TRUE}.
-This means you cannot move forward or backward. When you \code{get()}, it will be
-an empty list \code{list()}. After adding any new history, \code{pos} will never be
-0 again, it will always be a larger than 0 value.
-}
+1. If the stack reaches the limit and you are trying to add more history, the
+   first history step will be removed , all history will be shift to the left
+   by one step and finally add the new step to the end.
+2. When history returning methods are called, like the `get()`, `forward()`, `backward()`
+   methods, it will not directly return the item saved, but a list, contains 4
+   components: 1. item, the actual item stored; 2. pos, current posistion value;
+   3. first, boolean value, if this history is stored on the first position of stack;
+   4. last, boolean value, if this history is stored on the last position of stack;
+3. If you `forward` beyond last step, or `backward` to prior the first
+   step, it will be stopped with errors.
+4. Starting  history stack with no initial history will return a special
+   stack, where the `pos = 0`, `len = 0`, `first = TRUE`, and `last = TRUE`.
+   This means you cannot move forward or backward. When you `get()`, it will be
+   an empty list `list()`. After adding any new history, `pos` will never be
+   0 again, it will always be a larger than 0 value.
 }
 \examples{
 his <- historyStack$new()
@@ -59,20 +57,20 @@ his$status()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{historyStack$new()}}
-\item \href{#method-clear}{\code{historyStack$clear()}}
-\item \href{#method-get}{\code{historyStack$get()}}
-\item \href{#method-getPos}{\code{historyStack$getPos()}}
-\item \href{#method-status}{\code{historyStack$status()}}
-\item \href{#method-forward}{\code{historyStack$forward()}}
-\item \href{#method-backward}{\code{historyStack$backward()}}
-\item \href{#method-add}{\code{historyStack$add()}}
-\item \href{#method-clone}{\code{historyStack$clone()}}
+\item \href{#method-historyStack-new}{\code{historyStack$new()}}
+\item \href{#method-historyStack-clear}{\code{historyStack$clear()}}
+\item \href{#method-historyStack-get}{\code{historyStack$get()}}
+\item \href{#method-historyStack-getPos}{\code{historyStack$getPos()}}
+\item \href{#method-historyStack-status}{\code{historyStack$status()}}
+\item \href{#method-historyStack-forward}{\code{historyStack$forward()}}
+\item \href{#method-historyStack-backward}{\code{historyStack$backward()}}
+\item \href{#method-historyStack-add}{\code{historyStack$add()}}
+\item \href{#method-historyStack-clone}{\code{historyStack$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-historyStack-new"></a>}}
+\if{latex}{\out{\hypertarget{method-historyStack-new}{}}}
 \subsection{Method \code{new()}}{
 create the history object
 \subsection{Usage}{
@@ -93,8 +91,8 @@ default 25 steps}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clear"></a>}}
-\if{latex}{\out{\hypertarget{method-clear}{}}}
+\if{html}{\out{<a id="method-historyStack-clear"></a>}}
+\if{latex}{\out{\hypertarget{method-historyStack-clear}{}}}
 \subsection{Method \code{clear()}}{
 clear all history steps in the stack
 \subsection{Usage}{
@@ -103,8 +101,8 @@ clear all history steps in the stack
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
+\if{html}{\out{<a id="method-historyStack-get"></a>}}
+\if{latex}{\out{\hypertarget{method-historyStack-get}{}}}
 \subsection{Method \code{get()}}{
 retrieve the history from a certain position in the stack
 \subsection{Usage}{
@@ -121,8 +119,8 @@ step.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getPos"></a>}}
-\if{latex}{\out{\hypertarget{method-getPos}{}}}
+\if{html}{\out{<a id="method-historyStack-getPos"></a>}}
+\if{latex}{\out{\hypertarget{method-historyStack-getPos}{}}}
 \subsection{Method \code{getPos()}}{
 get current step position in the history stack
 \subsection{Usage}{
@@ -131,8 +129,8 @@ get current step position in the history stack
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-status"></a>}}
-\if{latex}{\out{\hypertarget{method-status}{}}}
+\if{html}{\out{<a id="method-historyStack-status"></a>}}
+\if{latex}{\out{\hypertarget{method-historyStack-status}{}}}
 \subsection{Method \code{status()}}{
 print out some status of the stack
 \subsection{Usage}{
@@ -140,15 +138,15 @@ print out some status of the stack
 }
 
 \subsection{Returns}{
-returns a list of \code{pos}: current position (int); \code{len}: current
-length of the history stack (int); \code{limit}: history stack storing limit (int);
-\code{first}: is current step position the first of the stack (bool);
-\code{last}: is current step position the last of the stack (bool)
+returns a list of `pos`: current position (int); `len`: current
+length of the history stack (int); `limit`: history stack storing limit (int);
+`first`: is current step position the first of the stack (bool);
+`last`: is current step position the last of the stack (bool)
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-forward"></a>}}
-\if{latex}{\out{\hypertarget{method-forward}{}}}
+\if{html}{\out{<a id="method-historyStack-forward"></a>}}
+\if{latex}{\out{\hypertarget{method-historyStack-forward}{}}}
 \subsection{Method \code{forward()}}{
 move one step forward in the history stack and return item
 in that position
@@ -158,8 +156,8 @@ in that position
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-backward"></a>}}
-\if{latex}{\out{\hypertarget{method-backward}{}}}
+\if{html}{\out{<a id="method-historyStack-backward"></a>}}
+\if{latex}{\out{\hypertarget{method-historyStack-backward}{}}}
 \subsection{Method \code{backward()}}{
 move one step backward in the history stack and return item
 in that position
@@ -169,8 +167,8 @@ in that position
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-add"></a>}}
-\if{latex}{\out{\hypertarget{method-add}{}}}
+\if{html}{\out{<a id="method-historyStack-add"></a>}}
+\if{latex}{\out{\hypertarget{method-historyStack-add}{}}}
 \subsection{Method \code{add()}}{
 Add an item to the history and move one step forward
 \subsection{Usage}{
@@ -195,8 +193,8 @@ position will be removed before adding the new history item.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-historyStack-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-historyStack-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
